@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ru.loftschool.bashclient" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <application
+        android:name="ru.loftschool.bashclient.ZabolbaliApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+
+        <meta-data android:name="AA_DB_NAME" android:value="Zadolbali.db" />
+        <meta-data android:name="AA_DB_VERSION" android:value="1" />
+        <meta-data
+            android:name="AA_MODELS"
+            android:value="ru.loftschool.loftschoolbashclient.database.models.Story" />
+
+        <activity android:name="ru.loftschool.bashclient.ui.activities.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="ru.loftschool.bashclient.ui.activities.MainActivity_" />
+
+        <service
+            android:name="ru.loftschool.bashclient.service.RefreshDataService_"
+            android:exported="false"/>
+
+    </application>
+
+</manifest>

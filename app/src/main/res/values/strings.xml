@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">LoftschoolBashClient</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!--Titles-->
+    <string name="frag_all_title">All stories</string>
+    <string name="frag_favorites_title">Favorites</string>
+    <string name="act_about_title">About</string>
+
+    <!--Navigation drawer items-->
+    <string name="drawer_item_all">All stories</string>
+    <string name="drawer_item_favorites">Favorites</string>
+
+    <!--Menu-->
+    <string name="menu_about">About</string>
+    <string name="menu_refresh">Refresh</string>
+
+    <!--About-->
+    <string name="about_text_line_1">Zadolba.li Mobile Client</string>
+    <string name="about_text_line_2">app v.1.0.0</string>
+    <string name="about_text_line_3">\@Yulia S. 2015</string>
+    <string name="about_btn_close">Close</string>
+
+    <!--Messages-->
+    <string name="error_no_connection">No internet connection</string>
+    <string name="error_troubles_connection">Some troubles with internet connection</string>
+    <string name="error_troubles_server">Some troubles while communications with server</string>
+    <string name="message_success_update">Data updated</string>
+    <string name="message_added_to_fav">Added to Favorites</string>
+    <string name="message_deleted_from_fav">Deleted from Favorites</string>
+
+
+    <string name="splash_text">WELCOME \n TO \n ZADOLBA.LI CLIENT</string>
+    <string name="story_text_name">Text</string>
+    <string name="drawer_text">ZADOLBA.LI mobile client</string>
+    <string name="context_menu_add_to_fav">Delete from Favorites</string>
+    <string name="context_menu_del_from_fav">Add to Favorites</string>
+
+    <!--Fragment Delete from fav-->
+    <string name="df_title">Delete from favorites?</string>
+    <string name="df_delete">DELETE</string>
+    <string name="df_cancel">CANCEL</string>
+</resources>

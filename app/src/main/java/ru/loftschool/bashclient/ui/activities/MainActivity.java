@@ -25,6 +25,7 @@ import ru.loftschool.bashclient.database.models.Story;
 import ru.loftschool.bashclient.service.RefreshDataService_;
 import ru.loftschool.bashclient.ui.ToolbarInitialization;
 import ru.loftschool.bashclient.ui.dialogs.AboutDialogFragment;
+import ru.loftschool.bashclient.ui.fragments.AllStoriesFragment;
 import ru.loftschool.bashclient.ui.fragments.AllStoriesFragment_;
 import ru.loftschool.bashclient.ui.fragments.FavoriteStoriesFragment;
 import ru.loftschool.bashclient.ui.fragments.FavoriteStoriesFragment_;
@@ -139,15 +140,30 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new AllStoriesFragment_();
         }
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
+        replaceFragment(fragment);
         menuItem.setChecked(true);
         drawerLayout.closeDrawers();
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        String backStateName = fragment.getClass().getName();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        boolean fragmentPooped = fragmentManager.popBackStackImmediate(backStateName, 0);
+
+        if (!fragmentPooped && fragmentManager.findFragmentByTag(backStateName) == null) {
+            fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment, backStateName)
+                                                .addToBackStack(backStateName)
+                                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+                                                .commit();
+        }
     }
 
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
+        } else if (this.getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof AllStoriesFragment) {
+            finish();
         } else {
             super.onBackPressed();
         }

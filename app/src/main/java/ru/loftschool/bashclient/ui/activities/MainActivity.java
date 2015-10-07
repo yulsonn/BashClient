@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -37,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String BC_ACTION = "refresh_fragments";
 
+    private static final int TIME_INTERVAL = 2000; // 2 seconds - desired time passed between two back presses.
+    private long mBackPressed;
+
     @ViewById(R.id.drawer_layout)
     DrawerLayout drawerLayout;
 
@@ -48,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
 
     @StringRes(R.string.error_no_connection)
     String errorNoConnect;
+
+    @StringRes(R.string.exit_toast_text)
+    String exitToastText;
 
     private FragmentTransaction transaction;
 
@@ -146,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void replaceFragment(Fragment fragment) {
-        String backStateName = fragment.getClass().getName();
+        String backStateName = fragment.getClass().getSimpleName();
         FragmentManager fragmentManager = getSupportFragmentManager();
         boolean fragmentPooped = fragmentManager.popBackStackImmediate(backStateName, 0);
 
@@ -163,7 +170,19 @@ public class MainActivity extends AppCompatActivity {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else if (this.getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof AllStoriesFragment) {
-            finish();
+            Toast toast = Toast.makeText(getBaseContext(), exitToastText, Toast.LENGTH_SHORT);
+
+            if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis())
+            {
+                toast.cancel();
+                getSupportFragmentManager().popBackStackImmediate();
+                super.onBackPressed();
+            }
+            else {
+                toast.show();
+            }
+
+            mBackPressed = System.currentTimeMillis();
         } else {
             super.onBackPressed();
         }

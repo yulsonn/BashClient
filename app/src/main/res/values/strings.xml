@@ -41,4 +41,7 @@
     <string name="df_title">Delete from favorites?</string>
     <string name="df_delete">DELETE</string>
     <string name="df_cancel">CANCEL</string>
+
+    <!--Double back click to exit from app-->
+    <string name="exit_toast_text">Press again to exit</string>
 </resources>

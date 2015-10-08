@@ -5,10 +5,12 @@
     android:id="@+id/card_view_all_stories"
     android:layout_width="match_parent"
     android:layout_height="@dimen/card_height"
-    android:layout_margin="@dimen/card_margin"
+    android:layout_marginTop="@dimen/card_margin"
+    android:layout_marginBottom="@dimen/card_margin"
     card_view:cardBackgroundColor="@color/background"
     card_view:cardUseCompatPadding="false"
-    android:foreground="?android:attr/selectableItemBackground">
+    android:foreground="?android:attr/selectableItemBackground"
+    card_view:cardElevation="1dp">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -18,13 +20,14 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-                <TextView
+            <TextView
                 android:id="@+id/story_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.9"
                 android:layout_margin="@dimen/text_margins"
                 android:textSize="@dimen/medium_main_text"
+                android:lineSpacingMultiplier="1.1"
                 android:text="@string/story_text_name"
                 android:lines="@integer/card_lines"
                 android:ellipsize="end"/>
@@ -33,7 +36,6 @@
                 android:id="@+id/story_favorite_flag"
                 android:layout_width="@dimen/image_size"
                 android:layout_height="@dimen/image_size"
-                android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:layout_weight="0.1"
                 android:src="@drawable/ic_star_yellow"

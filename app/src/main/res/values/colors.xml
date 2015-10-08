@@ -2,9 +2,11 @@
 <resources>
     <color name="primary">#FFC107</color>
     <color name="primaryDark">#FFA000</color>
+    <color name="orange">#ff9800</color>
     <color name="colorAccent">#D84315</color>
     <color name="background">#F5F5F5</color>
     <color name="white">#FFFFFF</color>
     <color name="yellow">#FFC107</color>
     <color name="grey">#d3d3d3</color>
+    <color name="black87">#DE000000</color>
 </resources>

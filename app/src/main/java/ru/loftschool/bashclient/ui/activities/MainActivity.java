@@ -175,8 +175,7 @@ public class MainActivity extends AppCompatActivity {
             if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis())
             {
                 toast.cancel();
-                getSupportFragmentManager().popBackStackImmediate();
-                super.onBackPressed();
+                finish();
             }
             else {
                 toast.show();

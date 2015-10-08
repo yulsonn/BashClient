@@ -17,10 +17,7 @@
     <string name="menu_refresh">Refresh</string>
 
     <!--About-->
-    <string name="about_text_line_1">Zadolba.li Mobile Client</string>
-    <string name="about_text_line_2">app v.1.0.0</string>
-    <string name="about_text_line_3">\@Yulia S. 2015</string>
-    <string name="about_btn_close">Close</string>
+    <string name="about_text_line">Zadolba.li Mobile Client \n app v.1.0.0 \n made by LoftSchool student \n Yulia Sadovskaya \n 2015, © LoftSchool.com</string>
 
     <!--Messages-->
     <string name="error_no_connection">No internet connection</string>

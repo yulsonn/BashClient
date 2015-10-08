@@ -21,15 +21,6 @@ public class AboutDialogFragment extends DialogFragment{
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().setTitle("About");
 
-        Button btnClose = (Button) dialog.findViewById(R.id.dialog_btn_close);
-        btnClose.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
-
         return dialog;
     }
 }

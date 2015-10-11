@@ -102,7 +102,6 @@ public class FavoriteStoriesFragment extends Fragment{
                 FullStoryFragment_ fullStoryFragment = new FullStoryFragment_();
                 Bundle bundle = new Bundle();
                 bundle.putLong(BundleConstants.ARG_ID, id);
-                bundle.putString(BundleConstants.ARG_TITLE, getContext().getResources().getString(R.string.frag_favorites_title));
                 fullStoryFragment.setArguments(bundle);
 
                 FragmentManager fragmentManager = ((AppCompatActivity) getContext()).getSupportFragmentManager();

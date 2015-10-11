@@ -94,8 +94,11 @@ public class FullStoryFragment extends Fragment {
     }
 
     private void setTitle() {
-        Bundle bundle = getArguments();
-        String title = bundle.getString(BundleConstants.ARG_TITLE);
+        String title = null;
+        Story story = getCurrentStory();
+        if (story != null) {
+            title = "#"+ story.storyNum;
+        }
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
     }
 }

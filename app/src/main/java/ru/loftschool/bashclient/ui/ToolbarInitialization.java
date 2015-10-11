@@ -27,7 +27,7 @@ public class ToolbarInitialization {
                 break;
             case TOOLBAR_ALT:
                 if (actionBar != null) {
-                    actionBar.setHomeAsUpIndicator(R.drawable.ic_chevron_left_white_24dp);
+                    actionBar.setHomeAsUpIndicator(R.drawable.ic_reply_white_24dp);
                     actionBar.setDisplayHomeAsUpEnabled(true);
                 }
                 break;

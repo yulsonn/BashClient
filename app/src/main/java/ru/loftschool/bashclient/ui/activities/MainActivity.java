@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,7 +29,6 @@ import ru.loftschool.bashclient.ui.ToolbarInitialization;
 import ru.loftschool.bashclient.ui.dialogs.AboutDialogFragment;
 import ru.loftschool.bashclient.ui.fragments.AllStoriesFragment;
 import ru.loftschool.bashclient.ui.fragments.AllStoriesFragment_;
-import ru.loftschool.bashclient.ui.fragments.FavoriteStoriesFragment;
 import ru.loftschool.bashclient.ui.fragments.FavoriteStoriesFragment_;
 import ru.loftschool.bashclient.ui.fragments.FullStoryFragment;
 
@@ -36,7 +36,9 @@ import ru.loftschool.bashclient.ui.fragments.FullStoryFragment;
 @OptionsMenu(R.menu.menu_main)
 public class MainActivity extends AppCompatActivity {
 
-    public static final String BC_ACTION = "refresh_fragments";
+    public static final String REFRESH_FRAGMENTS_ACTION = "refresh_fragments";
+    public static final String SWIPE_START_ACTION = "start_swipe_refresh";
+    public static final String SWIPE_STOP_ACTION = "stop_swipe_refresh";
 
     private static final int TIME_INTERVAL = 2000; // 2 seconds - desired time passed between two back presses.
     private long mBackPressed;
@@ -68,11 +70,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @OptionsItem(R.id.db_update)
-    void refresh() {
-        RefreshDataService_.intent(getApplication()).start();
-    }
-
     @OptionsItem(R.id.action_open_about)
     void info() {
         FragmentManager fm = getSupportFragmentManager();
@@ -87,21 +84,31 @@ public class MainActivity extends AppCompatActivity {
         initStories();
     }
 
-    @Receiver(actions = BC_ACTION)
+    @Receiver(actions = REFRESH_FRAGMENTS_ACTION)
     protected void completeRefresh() {
         refreshFragment();
     }
 
+    @Receiver(actions = SWIPE_START_ACTION)
+    protected void startSwipeRefresh() {
+        swipeRefreshVisible(true);
+    }
+
+    @Receiver(actions = SWIPE_STOP_ACTION)
+    protected void stopSwipeRefresh() {
+        swipeRefreshVisible(false);
+    }
+
+    void swipeRefreshVisible(boolean isVisible) {
+        SwipeRefreshLayout swipe = ((AllStoriesFragment) this.getSupportFragmentManager().findFragmentById(R.id.fragment_container)).getSwipeRefreshLayout();
+        if (swipe != null) {
+            swipe.setRefreshing(isVisible);
+        }
+    }
+
     @UiThread
     void refreshFragment() {
-        //TODO find how to update fragment data without recreating fragment
-        Fragment currentFragment = this.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-
-        if (currentFragment instanceof FavoriteStoriesFragment) {
-            transaction = getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FavoriteStoriesFragment_());
-        } else {
-            transaction = getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AllStoriesFragment_());
-        }
+       transaction = getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AllStoriesFragment_());
 
         if(!isChangingConfigurations()) {
             transaction.commit();

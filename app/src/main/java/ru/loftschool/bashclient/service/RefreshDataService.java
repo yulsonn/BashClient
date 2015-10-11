@@ -48,26 +48,37 @@ public class RefreshDataService extends IntentService {
         if (NetworkConnectionChecker.isConnected(this)) {
             List<StoryModel> stories;
             RestService restService = new RestService();
+
+            if (Story.selectAll().size() == 0) {
+                swipeRefreshStart();
+            }
             try {
                 stories = restService.getStories(RestGeneralParams.SITE, RestGeneralParams.NAME, RestGeneralParams.POSTS_QTY);
             } catch (RetrofitError e) {
                 retrofitErrorMessageShow(e.getKind(), e);
+                swipeRefreshStop();
                 return;
             }
 
             if (stories != null) {
-                Story.deleteAll();
+                int maxNum = Story.getMaxNum();
                 for (StoryModel story : stories) {
-                    String text = Html.fromHtml(story.getElementPureHtml()).toString().replace('\n', ' ');
-                    String shortText = text.length() > 150 ? text.substring(0, 150) + "..." : text;
-                    new Story(text, shortText).save();
+                    String link = story.getLink();
+                    int storyNum = Integer.parseInt(link.substring(link.lastIndexOf("F") + 1, link.length()));
+                    if (storyNum > maxNum) {
+                        String text = Html.fromHtml(story.getElementPureHtml()).toString().replace('\n', ' ');
+                        String shortText = text.length() > 250 ? text.substring(0, 250) + "..." : text;
+                        new Story(text, shortText, storyNum).save();
+                    }
                 }
             }
 
             refreshFragments();
             showMessage(mesSuccess);
+            swipeRefreshStop();
         } else {
             showMessage(errorNoConnect);
+            swipeRefreshStop();
         }
     }
 
@@ -89,7 +100,19 @@ public class RefreshDataService extends IntentService {
 
     void refreshFragments() {
         Intent broadcastIntent = new Intent();
-        broadcastIntent.setAction(MainActivity.BC_ACTION);
+        broadcastIntent.setAction(MainActivity.REFRESH_FRAGMENTS_ACTION);
+        sendBroadcast(broadcastIntent);
+    }
+
+    void swipeRefreshStart() {
+        Intent broadcastIntent = new Intent();
+        broadcastIntent.setAction(MainActivity.SWIPE_START_ACTION);
+        sendBroadcast(broadcastIntent);
+    }
+
+    void swipeRefreshStop() {
+        Intent broadcastIntent = new Intent();
+        broadcastIntent.setAction(MainActivity.SWIPE_STOP_ACTION);
         sendBroadcast(broadcastIntent);
     }
 }

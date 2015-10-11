@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,15 +22,19 @@ import java.util.List;
 import ru.loftschool.bashclient.R;
 import ru.loftschool.bashclient.adapters.AllStoriesAdapter;
 import ru.loftschool.bashclient.database.models.Story;
+import ru.loftschool.bashclient.service.RefreshDataService_;
 import ru.loftschool.bashclient.ui.BundleConstants;
-import ru.loftschool.bashclient.ui.listeners.ClickListener;
 import ru.loftschool.bashclient.ui.ToolbarInitialization;
+import ru.loftschool.bashclient.ui.listeners.ClickListener;
 
 @EFragment(R.layout.fragment_all_stories)
 public class AllStoriesFragment extends Fragment{
 
     @ViewById(R.id.all_stories_container)
     RecyclerView recyclerView;
+
+    @ViewById(R.id.main_swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @StringRes(R.string.frag_all_title)
     String title;
@@ -40,6 +45,10 @@ public class AllStoriesFragment extends Fragment{
 
     private ClickListener clickListener;
 
+    public SwipeRefreshLayout getSwipeRefreshLayout() {
+        return swipeRefreshLayout;
+    }
+
     @AfterViews
     void ready() {
         ToolbarInitialization.initToolbar(ToolbarInitialization.TOOLBAR_MAIN, (AppCompatActivity) getActivity());
@@ -48,6 +57,17 @@ public class AllStoriesFragment extends Fragment{
         data = Story.selectAll();
         adapter = new AllStoriesAdapter(data, clickListener);
         initRecycleView();
+        initSwipeRefresh();
+    }
+
+    private void initSwipeRefresh() {
+        swipeRefreshLayout.setColorSchemeResources(R.color.primaryDark);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                RefreshDataService_.intent(getContext()).start();
+            }
+        });
     }
 
     @Override
@@ -103,7 +123,6 @@ public class AllStoriesFragment extends Fragment{
                         FullStoryFragment_ fullStoryFragment = new FullStoryFragment_();
                         Bundle bundle = new Bundle();
                         bundle.putLong(BundleConstants.ARG_ID, id);
-                        bundle.putString(BundleConstants.ARG_TITLE, getContext().getResources().getString(R.string.frag_all_title));
                         fullStoryFragment.setArguments(bundle);
 
                         FragmentManager fragmentManager = ((AppCompatActivity) getContext()).getSupportFragmentManager();

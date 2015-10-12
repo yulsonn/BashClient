@@ -3,9 +3,9 @@ package ru.loftschool.bashclient.ui.fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,8 +22,6 @@ import ru.loftschool.bashclient.ui.ToolbarInitialization;
 @EFragment(R.layout.fragment_full_story)
 public class FullStoryFragment extends Fragment {
 
-    private static final int MENU_ITEM_NUM = 1;
-
     @ViewById(R.id.f_full_text)
     TextView fullText;
 
@@ -39,12 +37,53 @@ public class FullStoryFragment extends Fragment {
     @StringRes(R.string.message_deleted_from_fav)
     String deletedFromFav;
 
-
     @AfterViews
     void ready() {
         ToolbarInitialization.initToolbar(ToolbarInitialization.TOOLBAR_ALT, (AppCompatActivity) getActivity());
         initContent();
         setTitle();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // something that differs the Activity's menu
+        MenuItem item = menu.findItem(R.id.menu_story_fav);
+        item.setVisible(true);
+        favStarColorize(item);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+       switch (item.getItemId()) {
+           case R.id.menu_story_fav:
+               Story story = getCurrentStory();
+               story.favorite = !story.favorite;
+               story.save();
+               Toast.makeText(getContext(), story.favorite ? addedToFav : deletedFromFav, Toast.LENGTH_SHORT).show();
+               favStarColorize(item);
+                return  true;
+            default :
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+
+    private void favStarColorize(MenuItem item) {
+        Story story = getCurrentStory();
+        if (story != null) {
+            if(story.favorite) {
+                item.setIcon(R.drawable.orange_star_48);
+            } else {
+                item.setIcon(R.drawable.white_star_48);
+            }
+        }
     }
 
     private void initContent() {
@@ -53,34 +92,6 @@ public class FullStoryFragment extends Fragment {
             fullText.setText(story.text);
             registerForContextMenu(fullText);
         }
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        Story story = getCurrentStory();
-        if (story != null) {
-            if (story.favorite) {
-                menu.add(0, MENU_ITEM_NUM, 0, addToFav);
-            } else {
-                menu.add(0, MENU_ITEM_NUM, 0, delFromFav);
-            }
-        }
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        if (item.getItemId() == 1) {
-            Story story = getCurrentStory();
-
-            if (story != null) {
-                String message = story.favorite ? deletedFromFav : addedToFav;
-                story.favorite = (!story.favorite);
-                story.save();
-                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-            }
-        }
-        return super.onContextItemSelected(item);
     }
 
     private Story getCurrentStory() {

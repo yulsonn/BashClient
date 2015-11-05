@@ -6,7 +6,10 @@
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlNormal">@color/primary</item>
         <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeStyle">@style/AppActionMode</item>
     </style>
 
     <style name="PostsContainer">
@@ -22,6 +25,11 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">17sp</item>
         <item name="android:padding">8dp</item>
+    </style>
+
+    <style name="AppActionMode" parent="Base.Widget.AppCompat.ActionMode">
+        <item name="background">@color/primary</item>
+        <item name="backgroundSplit">@color/colorAccent</item>
     </style>
 
 </resources>

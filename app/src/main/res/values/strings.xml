@@ -11,6 +11,8 @@
     <!--Navigation drawer items-->
     <string name="drawer_item_all">All stories</string>
     <string name="drawer_item_favorites">Favorites</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
 
     <!--Menu-->
     <string name="menu_about">About</string>
@@ -41,4 +43,7 @@
 
     <!--Double back click to exit from app-->
     <string name="exit_toast_text">Press again to exit</string>
+    <string name="delete">Delete</string>
+    <string name="select_all">Select all</string>
+    <string name="remove_from_fav">Remove from Favorites</string>
 </resources>

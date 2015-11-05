@@ -25,7 +25,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="ru.loftschool.bashclient.ui.activities.MainActivity_" />
+        <activity android:name="ru.loftschool.bashclient.ui.activities.MainActivity_"
+            android:configChanges="orientation|screenSize"/>
 
         <service
             android:name="ru.loftschool.bashclient.service.RefreshDataService_"

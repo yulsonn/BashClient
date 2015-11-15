@@ -1,10 +1,13 @@
 package ru.loftschool.bashclient.adapters;
 
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import ru.loftschool.bashclient.utils.SparseBooleanArrayParcelable;
 
 public abstract class SelectableAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
 
@@ -68,6 +71,18 @@ public abstract class SelectableAdapter<VH extends RecyclerView.ViewHolder> exte
         if (!selectedItems.get(position, false)) {
             selectedItems.put(position, true);
             notifyItemChanged(position);
+        }
+    }
+
+    public void onSaveInstanceState(Bundle outState) {
+        SparseBooleanArrayParcelable parcelableSelectedItems = new SparseBooleanArrayParcelable(selectedItems);
+        outState.putParcelable(BUNDLE_TAG, parcelableSelectedItems);
+    }
+
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        SparseBooleanArrayParcelable parcelableSelectedItems = savedInstanceState.getParcelable(BUNDLE_TAG);
+        if (parcelableSelectedItems != null) {
+            selectedItems = parcelableSelectedItems;
         }
     }
 }

@@ -15,6 +15,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,6 +41,7 @@ public class AllStoriesFragment extends Fragment{
 
     private static AllStoriesAdapter adapter;
     private ActionModeCallback actionModeCallback = new ActionModeCallback();
+    private Bundle savedSelectedItems;
 
     @ViewById(R.id.all_stories_container)
     RecyclerView recyclerView;
@@ -71,6 +73,14 @@ public class AllStoriesFragment extends Fragment{
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            savedSelectedItems = savedInstanceState;
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         loadData();
@@ -94,6 +104,10 @@ public class AllStoriesFragment extends Fragment{
 
             @Override
             public void onLoadFinished(Loader<List<Story>> loader, List<Story> data) {
+                SparseBooleanArray savedCurrentSelectedItems = null;
+                if (adapter != null) {
+                    savedCurrentSelectedItems = adapter.getSparseBooleanSelectedItems();
+                }
                 adapter = new AllStoriesAdapter(data, new ClickListener() {
                     @Override
                     public void onItemClicked(View view, int position) {
@@ -121,6 +135,25 @@ public class AllStoriesFragment extends Fragment{
                         return true;
                     }
                 });
+
+                if (savedCurrentSelectedItems != null) {
+                    adapter.setSelectedItems(savedCurrentSelectedItems);
+                }
+
+                if (savedSelectedItems != null) {
+                    adapter.onRestoreInstanceState(savedSelectedItems);
+                    savedSelectedItems = null;
+                }
+                if (adapter.getSelectedItemsCount() > 0) {
+                    if (MainActivity.getActionMode() == null) {
+                        AppCompatActivity activity = (AppCompatActivity) getActivity();
+                        MainActivity.setActionMode(activity.startSupportActionMode(actionModeCallback));
+                    }
+                    MainActivity.getActionMode().setTitle(String.valueOf(adapter.getSelectedItemsCount()));
+                } else if (adapter.getSelectedItemsCount() == 0 && MainActivity.getActionMode() != null) {
+                    MainActivity.getActionMode().finish();
+                }
+                adapter.notifyDataSetChanged();
                 recyclerView.setAdapter(adapter);
             }
 
@@ -245,8 +278,16 @@ public class AllStoriesFragment extends Fragment{
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (adapter != null) {
+            adapter.onSaveInstanceState(outState);
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
         if (MainActivity.actionMode != null) {
             MainActivity.destroyActionModeIfNeeded();
         }

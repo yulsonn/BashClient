@@ -256,16 +256,17 @@ public class MainActivity extends AppCompatActivity {
         } else if (this.getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof AllStoriesFragment) {
             Toast toast = Toast.makeText(getBaseContext(), exitToastText, Toast.LENGTH_SHORT);
 
-            if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis())
-            {
+            if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
                 toast.cancel();
                 finish();
-            }
-            else {
+            } else {
                 toast.show();
             }
 
             mBackPressed = System.currentTimeMillis();
+        } else if (this.getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof FavoriteStoriesFragment) {
+            super.onBackPressed();
+            navigationView.setCheckedItem(R.id.drawer_item_all);
         } else {
             super.onBackPressed();
         }

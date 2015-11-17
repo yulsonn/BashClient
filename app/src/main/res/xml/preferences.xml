@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/pref_synchronization_section">
+        <ListPreference
+            android:key="@string/pref_synchronization_interval_key"
+            android:title="@string/pref_synchronization_interval_label"
+            android:entries="@array/pref_synchronization_interval_options"
+            android:entryValues="@array/pref_synchronization_interval_values"
+            android:defaultValue="@string/pref_synchronization_interval_value_default"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_notification_section" >
+        <SwitchPreference
+            android:title="@string/pref_enable_notifications_label"
+            android:key="@string/pref_enable_notifications_key"
+            android:summaryOff="@string/pref_enable_notifications_false"
+            android:summaryOn="@string/pref_enable_notifications_true"
+            android:defaultValue="@string/pref_enable_notifications_default" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

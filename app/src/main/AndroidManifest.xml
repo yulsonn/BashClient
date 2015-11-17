@@ -4,6 +4,10 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:name="ru.loftschool.bashclient.ZabolbaliApplication"
@@ -28,9 +32,43 @@
         <activity android:name="ru.loftschool.bashclient.ui.activities.MainActivity_"
             android:configChanges="orientation|screenSize"/>
 
+        <activity android:name=".ui.activities.AppPreferencesActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activities.MainActivity_"/>
+        </activity>
+
         <service
             android:name="ru.loftschool.bashclient.service.RefreshDataService_"
             android:exported="false"/>
+        
+        <provider
+            android:authorities="@string/content_authority"
+            android:name=".sync.StubContentProvider"
+            android:syncable="false"
+            android:exported="false" />
+
+        <service
+            android:name=".sync.AppAuthenticatorService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
+
+        <service
+            android:name=".sync.AppSyncService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter" />
+        </service>
+
 
     </application>
 

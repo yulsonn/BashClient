@@ -2,7 +2,6 @@ package ru.loftschool.bashclient.service;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.text.Html;
 import android.widget.Toast;
 
 import org.androidannotations.annotations.EIntentService;
@@ -14,11 +13,11 @@ import java.util.List;
 import retrofit.RetrofitError;
 import ru.loftschool.bashclient.R;
 import ru.loftschool.bashclient.database.models.Story;
-import ru.loftschool.bashclient.rest.RestGeneralParams;
 import ru.loftschool.bashclient.rest.RestService;
 import ru.loftschool.bashclient.rest.model.StoryModel;
 import ru.loftschool.bashclient.ui.activities.MainActivity;
 import ru.loftschool.bashclient.utils.NetworkConnectionChecker;
+import ru.loftschool.bashclient.utils.UpdateDataUtil;
 
 @EIntentService
 public class RefreshDataService extends IntentService {
@@ -52,25 +51,33 @@ public class RefreshDataService extends IntentService {
             if (Story.selectAll().size() == 0) {
                 swipeRefreshStart();
             }
+//            try {
+//                stories = restService.getStories(RestGeneralParams.SITE, RestGeneralParams.NAME, RestGeneralParams.POSTS_QTY);
+//            } catch (RetrofitError e) {
+//                retrofitErrorMessageShow(e.getKind(), e);
+//                swipeRefreshStop();
+//                return;
+//            }
+//
+//            if (stories != null) {
+//                int maxNum = Story.getMaxNum();
+//                for (StoryModel story : stories) {
+//                    String link = story.getLink();
+//                    int storyNum = Integer.parseInt(link.substring(link.lastIndexOf("F") + 1, link.length()));
+//                    if (storyNum > maxNum) {
+//                        String text = Html.fromHtml(story.getElementPureHtml()).toString().replace('\n', ' ');
+//                        String shortText = text.length() > 250 ? text.substring(0, 250) + "..." : text;
+//                        new Story(text, shortText, storyNum).save();
+//                    }
+//                }
+//            }
+
             try {
-                stories = restService.getStories(RestGeneralParams.SITE, RestGeneralParams.NAME, RestGeneralParams.POSTS_QTY);
+                UpdateDataUtil.loadData();
             } catch (RetrofitError e) {
                 retrofitErrorMessageShow(e.getKind(), e);
                 swipeRefreshStop();
                 return;
-            }
-
-            if (stories != null) {
-                int maxNum = Story.getMaxNum();
-                for (StoryModel story : stories) {
-                    String link = story.getLink();
-                    int storyNum = Integer.parseInt(link.substring(link.lastIndexOf("F") + 1, link.length()));
-                    if (storyNum > maxNum) {
-                        String text = Html.fromHtml(story.getElementPureHtml()).toString().replace('\n', ' ');
-                        String shortText = text.length() > 250 ? text.substring(0, 250) + "..." : text;
-                        new Story(text, shortText, storyNum).save();
-                    }
-                }
             }
 
             refreshFragments();

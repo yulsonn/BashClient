@@ -1,5 +1,6 @@
 package ru.loftschool.bashclient.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -95,6 +96,12 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
         AboutDialogFragment dialogFragment = new AboutDialogFragment();
         dialogFragment.show(fm, null);
+    }
+
+    @OptionsItem(R.id.action_settings)
+    void settings() {
+        Intent i = new Intent(this, AppPreferencesActivity.class);
+        startActivity(i);
     }
 
     @AfterViews

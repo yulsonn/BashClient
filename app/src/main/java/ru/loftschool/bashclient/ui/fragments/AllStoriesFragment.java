@@ -202,7 +202,7 @@ public class AllStoriesFragment extends Fragment{
     /* INIT METHODS */
 
     private void initSwipeRefresh() {
-        swipeRefreshLayout.setColorSchemeResources(R.color.primaryDark);
+        swipeRefreshLayout.setColorSchemeResources(R.color.yellow, R.color.primaryDark, R.color.colorAccent);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

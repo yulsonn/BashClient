@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_synchronization_interval_options">
+        <item>@string/pref_synchronization_interval_label_6_hours</item>
+        <item>@string/pref_synchronization_interval_label_12_hours</item>
+        <item>@string/pref_synchronization_interval_label_24_hours</item>
+    </string-array>
+    <string-array name="pref_synchronization_interval_values">
+        <item>@string/pref_synchronization_interval_value_6_hours</item>
+        <item>@string/pref_synchronization_interval_value_12_hours</item>
+        <item>@string/pref_synchronization_interval_value_24_hours</item>
+    </string-array>
+</resources>

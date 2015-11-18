@@ -71,8 +71,6 @@ public class MainActivity extends AppCompatActivity {
     @StringRes(R.string.exit_toast_text)
     String exitToastText;
 
-    private FragmentTransaction transaction;
-
     public static ActionMode getActionMode() {
         return actionMode;
     }
@@ -137,12 +135,8 @@ public class MainActivity extends AppCompatActivity {
 
     @UiThread
     void refreshFragment() {
-       transaction = getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AllStoriesFragment_());
+       getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AllStoriesFragment_()).commit();
 
-        if(!isChangingConfigurations()) {
-            transaction.commit();
-            transaction = null;
-        }
     }
 
     private void initStories() {
@@ -274,14 +268,6 @@ public class MainActivity extends AppCompatActivity {
             navigationView.setCheckedItem(R.id.drawer_item_all);
         } else {
             super.onBackPressed();
-        }
-    }
-
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        if (transaction != null) {
-            transaction.commit();
         }
     }
 

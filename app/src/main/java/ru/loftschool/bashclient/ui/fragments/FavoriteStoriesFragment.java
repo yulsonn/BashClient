@@ -49,6 +49,21 @@ public class FavoriteStoriesFragment extends Fragment implements RemoveSituation
     @StringRes(R.string.frag_favorites_title)
     String title;
 
+    @StringRes(R.string.undo_snackbar_story_removed)
+    String storyRemovedTxt;
+
+    @StringRes(R.string.undo_snackbar_stories_removed)
+    String storiesRemovedTxt;
+
+    @StringRes(R.string.undo_snackbar_story_removed_from_fav)
+    String storyRemovedFromFavTxt;
+
+    @StringRes(R.string.undo_snackbar_stories_removed_from_fav)
+    String storiesRemovedFromFavTxt;
+
+    @StringRes(R.string.undo_snackbar_cancel)
+    String cancelTxt;
+
     public static FavoriteStoriesAdapter getAdapter() {
         return adapter;
     }
@@ -195,8 +210,8 @@ public class FavoriteStoriesFragment extends Fragment implements RemoveSituation
 
     private void undoSnackbarShow(int RemoveSituation) {
         if (RemoveSituation == REMOVE) {
-            Snackbar snackbar = Snackbar.make(recyclerView, adapter.getSelectedItemsCount() <= 1 ? "История удалена" : "Истории удалены", Snackbar.LENGTH_LONG)
-                    .setAction("Отменить", new View.OnClickListener() {
+            Snackbar snackbar = Snackbar.make(recyclerView, adapter.getSelectedItemsCount() <= 1 ? storyRemovedTxt : storiesRemovedTxt, Snackbar.LENGTH_LONG)
+                    .setAction(cancelTxt, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             adapter.restoreRemovedItems();
@@ -207,9 +222,9 @@ public class FavoriteStoriesFragment extends Fragment implements RemoveSituation
             adapter.startUndoRemoveTimer(3500);
         } else {
             Snackbar snackbar = Snackbar.make(recyclerView,
-                                                adapter.getSelectedItemsCount() <= 1 ? "История удалена из Избранного" : "Истории удалены из Избранного",
+                                                adapter.getSelectedItemsCount() <= 1 ? storyRemovedFromFavTxt : storiesRemovedFromFavTxt,
                                                 Snackbar.LENGTH_LONG)
-                    .setAction("Отменить", new View.OnClickListener() {
+                    .setAction(cancelTxt, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             adapter.restoreRemovedFromFavItems();

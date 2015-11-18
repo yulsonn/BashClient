@@ -8,13 +8,9 @@ import org.androidannotations.annotations.EIntentService;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.res.StringRes;
 
-import java.util.List;
-
 import retrofit.RetrofitError;
 import ru.loftschool.bashclient.R;
 import ru.loftschool.bashclient.database.models.Story;
-import ru.loftschool.bashclient.rest.RestService;
-import ru.loftschool.bashclient.rest.model.StoryModel;
 import ru.loftschool.bashclient.ui.activities.MainActivity;
 import ru.loftschool.bashclient.utils.NetworkConnectionChecker;
 import ru.loftschool.bashclient.utils.UpdateDataUtil;
@@ -35,7 +31,7 @@ public class RefreshDataService extends IntentService {
     String mesSuccess;
 
     public RefreshDataService() {
-        super("RefreshDataService");
+        super(RefreshDataService.class.getSimpleName());
     }
 
     @Override
@@ -45,32 +41,10 @@ public class RefreshDataService extends IntentService {
 
     public void updateStories() {
         if (NetworkConnectionChecker.isConnected(this)) {
-            List<StoryModel> stories;
-            RestService restService = new RestService();
 
             if (Story.selectAll().size() == 0) {
                 swipeRefreshStart();
             }
-//            try {
-//                stories = restService.getStories(RestGeneralParams.SITE, RestGeneralParams.NAME, RestGeneralParams.POSTS_QTY);
-//            } catch (RetrofitError e) {
-//                retrofitErrorMessageShow(e.getKind(), e);
-//                swipeRefreshStop();
-//                return;
-//            }
-//
-//            if (stories != null) {
-//                int maxNum = Story.getMaxNum();
-//                for (StoryModel story : stories) {
-//                    String link = story.getLink();
-//                    int storyNum = Integer.parseInt(link.substring(link.lastIndexOf("F") + 1, link.length()));
-//                    if (storyNum > maxNum) {
-//                        String text = Html.fromHtml(story.getElementPureHtml()).toString().replace('\n', ' ');
-//                        String shortText = text.length() > 250 ? text.substring(0, 250) + "..." : text;
-//                        new Story(text, shortText, storyNum).save();
-//                    }
-//                }
-//            }
 
             try {
                 UpdateDataUtil.loadData();

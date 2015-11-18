@@ -52,6 +52,15 @@ public class AllStoriesFragment extends Fragment{
     @StringRes(R.string.frag_all_title)
     String title;
 
+    @StringRes(R.string.undo_snackbar_story_removed)
+    String storyRemovedTxt;
+
+    @StringRes(R.string.undo_snackbar_stories_removed)
+    String storiesRemovedTxt;
+
+    @StringRes(R.string.undo_snackbar_cancel)
+    String cancelTxt;
+
     public SwipeRefreshLayout getSwipeRefreshLayout() {
         return swipeRefreshLayout;
     }
@@ -176,8 +185,8 @@ public class AllStoriesFragment extends Fragment{
     }
 
     private void undoSnackbarShow() {
-        Snackbar snackbar = Snackbar.make(recyclerView, adapter.getSelectedItemsCount() <= 1 ? "История удалена" : "Истории удалены", Snackbar.LENGTH_LONG)
-                .setAction("Отменить", new View.OnClickListener() {
+        Snackbar snackbar = Snackbar.make(recyclerView, adapter.getSelectedItemsCount() <= 1 ? storyRemovedTxt : storiesRemovedTxt, Snackbar.LENGTH_LONG)
+                .setAction(cancelTxt, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         adapter.restoreRemovedItems();

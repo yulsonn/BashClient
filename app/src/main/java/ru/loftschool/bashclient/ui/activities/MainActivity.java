@@ -143,10 +143,6 @@ public class MainActivity extends AppCompatActivity {
             transaction.commit();
             transaction = null;
         }
-
-        // TODO: quantity downloaded items for adapter update instead of Fragment reload
-        //AllStoriesFragment.getAdapter().notifyItemRangeInserted(0,5);
-
     }
 
     private void initStories() {

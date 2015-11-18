@@ -25,12 +25,6 @@ public class FullStoryFragment extends Fragment {
     @ViewById(R.id.f_full_text)
     TextView fullText;
 
-    @StringRes(R.string.context_menu_add_to_fav)
-    String addToFav;
-
-    @StringRes(R.string.context_menu_del_from_fav)
-    String delFromFav;
-
     @StringRes(R.string.message_added_to_fav)
     String addedToFav;
 

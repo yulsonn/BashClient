@@ -21,6 +21,7 @@ import ru.loftschool.bashclient.utils.PreferenceUtil;
 public class AppPreferencesActivity extends AppCompatActivity  {
 
     private static Context context;
+    private String title;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -38,13 +39,14 @@ public class AppPreferencesActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pref_with_actionbar);
         context = getApplicationContext();
+        title = getResources().getString(R.string.act_settings_title);
+        setTitle(title);
         initToolbar();
         getFragmentManager().beginTransaction().replace(R.id.content_frame, new AppPreferenceFragment()).commit();
     }
 
     private void initToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setTitle("Settings");
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

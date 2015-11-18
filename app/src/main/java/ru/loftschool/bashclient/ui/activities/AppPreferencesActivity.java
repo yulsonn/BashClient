@@ -52,6 +52,12 @@ public class AppPreferencesActivity extends AppCompatActivity  {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.activity_open_scale, R.anim.activity_close_translate);
+    }
+
     public static class AppPreferenceFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener{
 
         @Override

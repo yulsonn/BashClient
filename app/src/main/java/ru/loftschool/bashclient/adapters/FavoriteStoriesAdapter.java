@@ -1,11 +1,14 @@
 package ru.loftschool.bashclient.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -33,6 +36,8 @@ public class FavoriteStoriesAdapter extends SelectableAdapter<FavoriteStoriesAda
     private boolean multipleRemove = false;
     private Timer undoRemoveTimer;
     private Timer undoRemoveFromFavoritesTimer;
+    private int lastPosition = -1;
+    private Context context;
 
     public FavoriteStoriesAdapter() {
     }
@@ -49,6 +54,8 @@ public class FavoriteStoriesAdapter extends SelectableAdapter<FavoriteStoriesAda
     @Override
     public FavoriteStoriesHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_favorite_stories, parent, false);
+        context = parent.getContext();
+
         return new FavoriteStoriesHolder(itemView, clickListener);
     }
 
@@ -57,6 +64,8 @@ public class FavoriteStoriesAdapter extends SelectableAdapter<FavoriteStoriesAda
         Story story = stories.get(position);
         holder.text.setText(Html.fromHtml(story.shortText));
         holder.selectedOverlay.setVisibility(isSelected(position) ? View.VISIBLE : View.INVISIBLE);
+
+        setAnimation(holder.itemView, position);
     }
 
     @Override
@@ -271,6 +280,14 @@ public class FavoriteStoriesAdapter extends SelectableAdapter<FavoriteStoriesAda
         if (this.undoRemoveFromFavoritesTimer != null) {
             this.undoRemoveFromFavoritesTimer.cancel();
             this.undoRemoveFromFavoritesTimer = null;
+        }
+    }
+
+    private void setAnimation(View viewToAnimate, int position) {
+        if (position > lastPosition) {
+            Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_up);
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
         }
     }
 

@@ -102,6 +102,8 @@ public class MainActivity extends AppCompatActivity {
     void settings() {
         Intent i = new Intent(this, AppPreferencesActivity.class);
         startActivity(i);
+        overridePendingTransition(R.anim.right_in, R.anim.left_out);
+
     }
 
     @AfterViews

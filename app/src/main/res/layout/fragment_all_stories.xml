@@ -4,11 +4,18 @@
     android:id="@+id/stories_content"
     style="@style/PostsContainer">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/all_stories_container"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/main_swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/rw_container_margins">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/all_stories_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/rw_container_margins">
+        </android.support.v7.widget.RecyclerView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </android.support.design.widget.CoordinatorLayout>

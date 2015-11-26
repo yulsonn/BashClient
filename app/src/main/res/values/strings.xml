@@ -1,44 +1,79 @@
 <resources>
-    <string name="app_name">LoftschoolBashClient</string>
+    <string name="app_name">Zadolba!li Client</string>
 
-    <string name="action_settings">Settings</string>
+    <!--Sync-->
+    <string name="content_authority" translatable="false">ru.loftschool.bashclient</string>
+    <string name="sync_account_type" translatable="false">bashclient.loftschool.ru</string>
 
     <!--Titles-->
-    <string name="frag_all_title">All stories</string>
-    <string name="frag_favorites_title">Favorites</string>
-    <string name="act_about_title">About</string>
+    <string name="frag_all_title">Все истории</string>
+    <string name="frag_favorites_title">Избранные</string>
+    <string name="act_settings_title">Настройки</string>
+    <string name="dialog_about_title">О приложении</string>
 
     <!--Navigation drawer items-->
-    <string name="drawer_item_all">All stories</string>
-    <string name="drawer_item_favorites">Favorites</string>
+    <string name="drawer_item_all">Все истории</string>
+    <string name="drawer_item_favorites">Избранные</string>
+    <string name="drawer_item_settings">Настройки</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
 
     <!--Menu-->
-    <string name="menu_about">About</string>
-    <string name="menu_refresh">Refresh</string>
+    <string name="menu_about">О приложении</string>
+    <string name="menu_settings">Настройки</string>
 
     <!--About-->
-    <string name="about_text_line_1">Zadolba.li Mobile Client</string>
-    <string name="about_text_line_2">app v.1.0.0</string>
-    <string name="about_text_line_3">\@Yulia S. 2015</string>
-    <string name="about_btn_close">Close</string>
+    <string name="about_text_line">Zadolba.li Mobile Client \n app v.1.0.0 \n made by LoftSchool student \n Yulia Sadovskaya \n 2015, © LoftSchool.com</string>
 
     <!--Messages-->
-    <string name="error_no_connection">No internet connection</string>
-    <string name="error_troubles_connection">Some troubles with internet connection</string>
-    <string name="error_troubles_server">Some troubles while communications with server</string>
-    <string name="message_success_update">Data updated</string>
-    <string name="message_added_to_fav">Added to Favorites</string>
-    <string name="message_deleted_from_fav">Deleted from Favorites</string>
+    <string name="error_no_connection">Нет подключения к интернету</string>
+    <string name="error_troubles_connection">Проблемы с подключением к интернету</string>
+    <string name="error_troubles_server">Проблемы с сервером</string>
+    <string name="message_success_update">Истории обновлены</string>
+    <string name="message_added_to_fav">История добавлена в избранное</string>
+    <string name="message_deleted_from_fav">История удалена из избранного</string>
 
-
+    <!--Splash-->
     <string name="splash_text">WELCOME \n TO \n ZADOLBA.LI CLIENT</string>
     <string name="story_text_name">Text</string>
-    <string name="drawer_text">ZADOLBA.LI mobile client</string>
-    <string name="context_menu_add_to_fav">Delete from Favorites</string>
-    <string name="context_menu_del_from_fav">Add to Favorites</string>
 
-    <!--Fragment Delete from fav-->
-    <string name="df_title">Delete from favorites?</string>
-    <string name="df_delete">DELETE</string>
-    <string name="df_cancel">CANCEL</string>
+    <!--Drawer header-->
+    <string name="drawer_text">ZADOLBA.LI mobile client</string>
+
+    <!--Double back click to exit from app-->
+    <string name="exit_toast_text">Для выхода нажмите еще раз</string>
+    <string name="delete">Удалить</string>
+    <string name="select_all">Выбрать все</string>
+    <string name="remove_from_fav">Удалить из избранного</string>
+
+    <!--Preferences screen-->
+    <string name="pref_notification_section">Уведомления</string>
+    <string name="pref_enable_notifications_key" translatable="false">enable_notifications</string>
+    <string name="pref_enable_notifications_label">Уведомления о синхронизации</string>
+    <string name="pref_enable_notifications_true">ВКЛ.</string>
+    <string name="pref_enable_notifications_false">ВЫКЛ.</string>
+    <string name="pref_enable_notifications_default" translatable="false">true</string>
+
+    <string name="pref_synchronization_section">Синхронизация</string>
+    <string name="pref_synchronization_interval_key" translatable="false">sync</string>
+    <string name="pref_synchronization_interval_label">Интервал синхронизации</string>
+
+    <string name="pref_synchronization_interval_label_6_hours">6 часов</string>
+    <string name="pref_synchronization_interval_label_12_hours">12 часов</string>
+    <string name="pref_synchronization_interval_label_24_hours">24 часа</string>
+    <string name="pref_synchronization_interval_label_default">24 часа</string>
+
+    <string name="pref_synchronization_interval_value_6_hours">6</string>
+    <string name="pref_synchronization_interval_value_12_hours">12</string>
+    <string name="pref_synchronization_interval_value_24_hours">24</string>
+    <string name="pref_synchronization_interval_value_default">24</string>
+    <string name="notification_message">Новые истории загружены</string>
+
+    <!--UNDO Snackbar-->
+    <string name="undo_snackbar_story_removed">История удалена</string>
+    <string name="undo_snackbar_stories_removed">Истории удалены</string>
+    <string name="undo_snackbar_story_removed_from_fav">История удалена из избранного</string>
+    <string name="undo_snackbar_stories_removed_from_fav">Истории удалены из избранного</string>
+    <string name="undo_snackbar_cancel">Отменить</string>
+
 </resources>

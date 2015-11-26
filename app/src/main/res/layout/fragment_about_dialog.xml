@@ -10,20 +10,8 @@
 
     <TextView
         style="@style/AboutDialogText"
-        android:text="@string/about_text_line_1" />
-    <TextView
-        style="@style/AboutDialogText"
-        android:text="@string/about_text_line_2" />
-    <TextView
-        style="@style/AboutDialogText"
-        android:text="@string/about_text_line_3" />
+        android:text="@string/about_text_line"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.5"/>
 
-    <Button
-        android:id="@+id/dialog_btn_close"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/primary"
-        android:textColor="@color/white"
-        android:layout_marginTop="@dimen/about_btn_margin_top"
-        android:text="@string/about_btn_close"/>
 </LinearLayout>

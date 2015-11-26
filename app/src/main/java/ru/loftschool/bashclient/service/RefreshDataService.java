@@ -2,23 +2,18 @@ package ru.loftschool.bashclient.service;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.text.Html;
 import android.widget.Toast;
 
 import org.androidannotations.annotations.EIntentService;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.res.StringRes;
 
-import java.util.List;
-
 import retrofit.RetrofitError;
 import ru.loftschool.bashclient.R;
 import ru.loftschool.bashclient.database.models.Story;
-import ru.loftschool.bashclient.rest.RestGeneralParams;
-import ru.loftschool.bashclient.rest.RestService;
-import ru.loftschool.bashclient.rest.model.StoryModel;
 import ru.loftschool.bashclient.ui.activities.MainActivity;
 import ru.loftschool.bashclient.utils.NetworkConnectionChecker;
+import ru.loftschool.bashclient.utils.UpdateDataUtil;
 
 @EIntentService
 public class RefreshDataService extends IntentService {
@@ -36,7 +31,7 @@ public class RefreshDataService extends IntentService {
     String mesSuccess;
 
     public RefreshDataService() {
-        super("RefreshDataService");
+        super(RefreshDataService.class.getSimpleName());
     }
 
     @Override
@@ -46,28 +41,25 @@ public class RefreshDataService extends IntentService {
 
     public void updateStories() {
         if (NetworkConnectionChecker.isConnected(this)) {
-            List<StoryModel> stories;
-            RestService restService = new RestService();
-            try {
-                stories = restService.getStories(RestGeneralParams.SITE, RestGeneralParams.NAME, RestGeneralParams.POSTS_QTY);
-            } catch (RetrofitError e) {
-                retrofitErrorMessageShow(e.getKind(), e);
-                return;
+
+            if (Story.selectAll().size() == 0) {
+                swipeRefreshStart();
             }
 
-            if (stories != null) {
-                Story.deleteAll();
-                for (StoryModel story : stories) {
-                    String text = Html.fromHtml(story.getElementPureHtml()).toString().replace('\n', ' ');
-                    String shortText = text.length() > 150 ? text.substring(0, 150) + "..." : text;
-                    new Story(text, shortText).save();
-                }
+            try {
+                UpdateDataUtil.loadData();
+            } catch (RetrofitError e) {
+                retrofitErrorMessageShow(e.getKind(), e);
+                swipeRefreshStop();
+                return;
             }
 
             refreshFragments();
             showMessage(mesSuccess);
+            swipeRefreshStop();
         } else {
             showMessage(errorNoConnect);
+            swipeRefreshStop();
         }
     }
 
@@ -89,7 +81,19 @@ public class RefreshDataService extends IntentService {
 
     void refreshFragments() {
         Intent broadcastIntent = new Intent();
-        broadcastIntent.setAction(MainActivity.BC_ACTION);
+        broadcastIntent.setAction(MainActivity.REFRESH_FRAGMENTS_ACTION);
+        sendBroadcast(broadcastIntent);
+    }
+
+    void swipeRefreshStart() {
+        Intent broadcastIntent = new Intent();
+        broadcastIntent.setAction(MainActivity.SWIPE_START_ACTION);
+        sendBroadcast(broadcastIntent);
+    }
+
+    void swipeRefreshStop() {
+        Intent broadcastIntent = new Intent();
+        broadcastIntent.setAction(MainActivity.SWIPE_STOP_ACTION);
         sendBroadcast(broadcastIntent);
     }
 }

@@ -76,4 +76,9 @@
     <string name="undo_snackbar_stories_removed_from_fav">Истории удалены из избранного</string>
     <string name="undo_snackbar_cancel">Отменить</string>
 
+    <!--Sharing-->
+    <string name="share_type">text/plain</string>
+    <string name="share_site_address">http://zadolba.li/story/</string>
+    <string name="share_text">Поделись ссылкой на историю!</string>
+
 </resources>

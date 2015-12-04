@@ -65,7 +65,7 @@ public class FavoriteStoriesAdapter extends SelectableAdapter<FavoriteStoriesAda
         holder.text.setText(Html.fromHtml(story.shortText));
         holder.selectedOverlay.setVisibility(isSelected(position) ? View.VISIBLE : View.INVISIBLE);
 
-        setAnimation(holder.itemView, position);
+        //setAnimation(holder.itemView, position);
     }
 
     @Override

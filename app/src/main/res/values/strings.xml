@@ -23,7 +23,7 @@
     <string name="menu_settings">Настройки</string>
 
     <!--About-->
-    <string name="about_text_line">Zadolba.li Mobile Client \n app v.1.0.0 \n made by LoftSchool student \n Yulia Sadovskaya \n 2015, © LoftSchool.com</string>
+    <string name="about_text_line">Zadolba.li Mobile Client \n app v.1.0 \n made by Julia Sadovskaya \n  jul.appdev@gmail.com</string>
 
     <!--Messages-->
     <string name="error_no_connection">Нет подключения к интернету</string>

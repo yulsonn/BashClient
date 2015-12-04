@@ -1,6 +1,7 @@
 package ru.loftschool.bashclient.ui.fragments;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,7 +12,6 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -39,6 +39,7 @@ import ru.loftschool.bashclient.ui.listeners.ClickListener;
 @EFragment(R.layout.fragment_all_stories)
 public class AllStoriesFragment extends Fragment{
 
+    private static final String SAVED_LAYOUT_MANAGER = "save_layout_state";
     private static AllStoriesAdapter adapter;
     private ActionModeCallback actionModeCallback = new ActionModeCallback();
     private Bundle savedSelectedItems;
@@ -60,6 +61,8 @@ public class AllStoriesFragment extends Fragment{
 
     @StringRes(R.string.undo_snackbar_cancel)
     String cancelTxt;
+
+    Parcelable layoutManagerSavedState;
 
     public SwipeRefreshLayout getSwipeRefreshLayout() {
         return swipeRefreshLayout;
@@ -86,13 +89,16 @@ public class AllStoriesFragment extends Fragment{
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             savedSelectedItems = savedInstanceState;
+            layoutManagerSavedState = savedInstanceState.getParcelable(SAVED_LAYOUT_MANAGER);
         }
+
+        loadData();
+        restoreLayoutManagerPosition();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        loadData();
         initSwipeToDismiss();
     }
 
@@ -244,7 +250,7 @@ public class AllStoriesFragment extends Fragment{
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(new AllStoriesAdapter());
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        //recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
     /* ActionModeCallback */
@@ -292,6 +298,7 @@ public class AllStoriesFragment extends Fragment{
         if (adapter != null) {
             adapter.onSaveInstanceState(outState);
         }
+        outState.putParcelable(SAVED_LAYOUT_MANAGER, recyclerView.getLayoutManager().onSaveInstanceState());
     }
 
     @Override
@@ -299,6 +306,12 @@ public class AllStoriesFragment extends Fragment{
         super.onDestroyView();
         if (MainActivity.actionMode != null) {
             MainActivity.destroyActionModeIfNeeded();
+        }
+    }
+
+    private void restoreLayoutManagerPosition() {
+        if (layoutManagerSavedState != null) {
+            recyclerView.getLayoutManager().onRestoreInstanceState(layoutManagerSavedState);
         }
     }
 }

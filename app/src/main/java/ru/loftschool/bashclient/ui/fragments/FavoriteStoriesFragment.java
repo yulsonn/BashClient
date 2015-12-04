@@ -1,6 +1,7 @@
 package ru.loftschool.bashclient.ui.fragments;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -37,6 +38,7 @@ import ru.loftschool.bashclient.utils.RemoveSituation;
 
 @EFragment(R.layout.fragment_favorite_stories)
 public class FavoriteStoriesFragment extends Fragment implements RemoveSituation {
+    private static final String SAVED_LAYOUT_MANAGER = "save_layout_state";
 
     private static FavoriteStoriesAdapter adapter;
     private Bundle savedSelectedItems;
@@ -64,6 +66,8 @@ public class FavoriteStoriesFragment extends Fragment implements RemoveSituation
     @StringRes(R.string.undo_snackbar_cancel)
     String cancelTxt;
 
+    Parcelable layoutManagerSavedState;
+
     public static FavoriteStoriesAdapter getAdapter() {
         return adapter;
     }
@@ -83,13 +87,16 @@ public class FavoriteStoriesFragment extends Fragment implements RemoveSituation
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             savedSelectedItems = savedInstanceState;
+            layoutManagerSavedState = savedInstanceState.getParcelable(SAVED_LAYOUT_MANAGER);
         }
+
+        loadData();
+        restoreLayoutManagerPosition();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        loadData();
         initSwipeToDismiss();
         initRecycleView();
     }
@@ -297,6 +304,7 @@ public class FavoriteStoriesFragment extends Fragment implements RemoveSituation
         if (adapter != null) {
             adapter.onSaveInstanceState(outState);
         }
+        outState.putParcelable(SAVED_LAYOUT_MANAGER, recyclerView.getLayoutManager().onSaveInstanceState());
     }
 
     @Override
@@ -304,6 +312,12 @@ public class FavoriteStoriesFragment extends Fragment implements RemoveSituation
         super.onDestroyView();
         if (MainActivity.actionMode != null) {
             MainActivity.destroyActionModeIfNeeded();
+        }
+    }
+
+    private void restoreLayoutManagerPosition() {
+        if (layoutManagerSavedState != null) {
+            recyclerView.getLayoutManager().onRestoreInstanceState(layoutManagerSavedState);
         }
     }
 }

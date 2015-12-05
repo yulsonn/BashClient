@@ -23,7 +23,7 @@
     <string name="menu_settings">Настройки</string>
 
     <!--About-->
-    <string name="about_text_line">Zadolba.li Mobile Client \n app v.1.0.0 \n made by LoftSchool student \n Yulia Sadovskaya \n 2015, © LoftSchool.com</string>
+    <string name="about_text_line">Zadolba.li Mobile Client \n app v.1.0 \n made by Julia Sadovskaya \n  jul.appdev@gmail.com</string>
 
     <!--Messages-->
     <string name="error_no_connection">Нет подключения к интернету</string>
@@ -75,5 +75,10 @@
     <string name="undo_snackbar_story_removed_from_fav">История удалена из избранного</string>
     <string name="undo_snackbar_stories_removed_from_fav">Истории удалены из избранного</string>
     <string name="undo_snackbar_cancel">Отменить</string>
+
+    <!--Sharing-->
+    <string name="share_type">text/plain</string>
+    <string name="share_site_address">http://zadolba.li/story/</string>
+    <string name="share_text">Поделись ссылкой на историю!</string>
 
 </resources>

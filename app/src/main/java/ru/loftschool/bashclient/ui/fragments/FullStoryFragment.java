@@ -1,5 +1,7 @@
 package ru.loftschool.bashclient.ui.fragments;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +33,15 @@ public class FullStoryFragment extends Fragment {
     @StringRes(R.string.message_deleted_from_fav)
     String deletedFromFav;
 
+    @StringRes(R.string.share_text)
+    String shareText;
+
+    @StringRes(R.string.share_type)
+    String shareType;
+
+    @StringRes(R.string.share_site_address)
+    String shareSite;
+
     @AfterViews
     void ready() {
         ToolbarInitialization.initToolbar(ToolbarInitialization.TOOLBAR_ALT, (AppCompatActivity) getActivity());
@@ -47,9 +58,13 @@ public class FullStoryFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // something that differs the Activity's menu
-        MenuItem item = menu.findItem(R.id.menu_story_fav);
-        item.setVisible(true);
-        favStarColorize(item);
+        MenuItem itemFav = menu.findItem(R.id.menu_story_fav);
+        MenuItem itemShare = menu.findItem(R.id.menu_story_share);
+
+        itemFav.setVisible(true);
+        itemShare.setVisible(true);
+
+        favStarColorize(itemFav);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -63,10 +78,21 @@ public class FullStoryFragment extends Fragment {
                Toast.makeText(getContext(), story.favorite ? addedToFav : deletedFromFav, Toast.LENGTH_SHORT).show();
                favStarColorize(item);
                 return  true;
+           case R.id.menu_story_share:
+               Intent share = new Intent(Intent.ACTION_SEND);
+               share.setType(shareType);
+               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                   share.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+               } else {
+                   share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+               }
+
+               share.putExtra(Intent.EXTRA_TEXT, shareSite + getCurrentStory().storyNum);
+
+               startActivity(Intent.createChooser(share, shareText));
             default :
                 return super.onOptionsItemSelected(item);
         }
-
     }
 
     private void favStarColorize(MenuItem item) {

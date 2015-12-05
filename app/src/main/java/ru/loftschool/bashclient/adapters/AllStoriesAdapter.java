@@ -65,7 +65,7 @@ public class AllStoriesAdapter extends SelectableAdapter<AllStoriesAdapter.AllSt
         holder.text.setText(story.shortText);
         holder.selectedOverlay.setVisibility(isSelected(position) ? View.VISIBLE : View.INVISIBLE);
 
-        setAnimation(holder.itemView, position);
+        //setAnimation(holder.itemView, position);
     }
 
     @Override

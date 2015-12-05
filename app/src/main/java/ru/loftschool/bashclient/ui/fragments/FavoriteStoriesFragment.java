@@ -2,6 +2,7 @@ package ru.loftschool.bashclient.ui.fragments;
 
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,14 +12,15 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.SparseBooleanArray;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -80,6 +82,8 @@ public class FavoriteStoriesFragment extends Fragment implements RemoveSituation
     void ready() {
         ToolbarInitialization.initToolbar(ToolbarInitialization.TOOLBAR_MAIN, (AppCompatActivity) getActivity());
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
+        initRecycleView();
+
     }
 
     @Override
@@ -87,18 +91,26 @@ public class FavoriteStoriesFragment extends Fragment implements RemoveSituation
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             savedSelectedItems = savedInstanceState;
+        }
+
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
             layoutManagerSavedState = savedInstanceState.getParcelable(SAVED_LAYOUT_MANAGER);
         }
 
         loadData();
         restoreLayoutManagerPosition();
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         initSwipeToDismiss();
-        initRecycleView();
     }
 
     private void loadData() {
@@ -201,7 +213,7 @@ public class FavoriteStoriesFragment extends Fragment implements RemoveSituation
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(new FavoriteStoriesAdapter());
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        //recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
     private void toggleSelection(int position){

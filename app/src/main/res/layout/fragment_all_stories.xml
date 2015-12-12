@@ -12,8 +12,8 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/all_stories_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/rw_container_margins">
+            android:layout_height="match_parent">
+
         </android.support.v7.widget.RecyclerView>
 
     </android.support.v4.widget.SwipeRefreshLayout>

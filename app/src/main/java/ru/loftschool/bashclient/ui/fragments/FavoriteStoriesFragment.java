@@ -82,35 +82,22 @@ public class FavoriteStoriesFragment extends Fragment implements RemoveSituation
     void ready() {
         ToolbarInitialization.initToolbar(ToolbarInitialization.TOOLBAR_MAIN, (AppCompatActivity) getActivity());
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
+
         initRecycleView();
-
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (savedInstanceState != null) {
-            savedSelectedItems = savedInstanceState;
-        }
-
+        loadData();
+        restoreLayoutManagerPosition();
+        initSwipeToDismiss();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (savedInstanceState != null) {
+            savedSelectedItems = savedInstanceState;
             layoutManagerSavedState = savedInstanceState.getParcelable(SAVED_LAYOUT_MANAGER);
         }
 
-        loadData();
-        restoreLayoutManagerPosition();
         return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        initSwipeToDismiss();
     }
 
     private void loadData() {
@@ -316,7 +303,9 @@ public class FavoriteStoriesFragment extends Fragment implements RemoveSituation
         if (adapter != null) {
             adapter.onSaveInstanceState(outState);
         }
-        outState.putParcelable(SAVED_LAYOUT_MANAGER, recyclerView.getLayoutManager().onSaveInstanceState());
+        if (recyclerView != null) {
+            outState.putParcelable(SAVED_LAYOUT_MANAGER, recyclerView.getLayoutManager().onSaveInstanceState());
+        }
     }
 
     @Override
@@ -328,8 +317,9 @@ public class FavoriteStoriesFragment extends Fragment implements RemoveSituation
     }
 
     private void restoreLayoutManagerPosition() {
-        if (layoutManagerSavedState != null) {
+        if (layoutManagerSavedState != null && recyclerView != null) {
             recyclerView.getLayoutManager().onRestoreInstanceState(layoutManagerSavedState);
         }
+        layoutManagerSavedState = null;
     }
 }

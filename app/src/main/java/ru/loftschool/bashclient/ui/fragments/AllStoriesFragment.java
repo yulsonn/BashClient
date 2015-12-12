@@ -83,35 +83,23 @@ public class AllStoriesFragment extends Fragment{
     void ready() {
         ToolbarInitialization.initToolbar(ToolbarInitialization.TOOLBAR_MAIN, (AppCompatActivity) getActivity());
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
-        initRecycleView();
-        initSwipeRefresh();
-    }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (savedInstanceState != null) {
-            savedSelectedItems = savedInstanceState;
-            layoutManagerSavedState = savedInstanceState.getParcelable(SAVED_LAYOUT_MANAGER);
-        }
+        initRecycleView();
+        loadData();
+        restoreLayoutManagerPosition();
+        initSwipeToDismiss();
+        initSwipeRefresh();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (savedInstanceState != null) {
+            savedSelectedItems = savedInstanceState;
             layoutManagerSavedState = savedInstanceState.getParcelable(SAVED_LAYOUT_MANAGER);
         }
 
-        loadData();
-        restoreLayoutManagerPosition();
         return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        initSwipeToDismiss();
     }
 
     private void loadData() {
@@ -262,7 +250,6 @@ public class AllStoriesFragment extends Fragment{
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(new AllStoriesAdapter());
-        //recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
     /* ActionModeCallback */
@@ -310,7 +297,9 @@ public class AllStoriesFragment extends Fragment{
         if (adapter != null) {
             adapter.onSaveInstanceState(outState);
         }
-        outState.putParcelable(SAVED_LAYOUT_MANAGER, recyclerView.getLayoutManager().onSaveInstanceState());
+        if (recyclerView != null) {
+            outState.putParcelable(SAVED_LAYOUT_MANAGER, recyclerView.getLayoutManager().onSaveInstanceState());
+        }
     }
 
     @Override
@@ -322,8 +311,9 @@ public class AllStoriesFragment extends Fragment{
     }
 
     private void restoreLayoutManagerPosition() {
-        if (layoutManagerSavedState != null) {
+        if (layoutManagerSavedState != null && recyclerView != null) {
             recyclerView.getLayoutManager().onRestoreInstanceState(layoutManagerSavedState);
         }
+        layoutManagerSavedState = null;
     }
 }

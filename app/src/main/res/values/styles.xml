@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -7,7 +7,6 @@
         <item name="colorPrimaryDark">@color/primaryDark</item>
         <item name="colorAccent">@color/orange</item>
         <item name="colorControlNormal">@color/primary</item>
-        <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeStyle">@style/AppActionMode</item>
     </style>

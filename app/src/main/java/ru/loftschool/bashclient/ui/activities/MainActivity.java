@@ -127,16 +127,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void swipeRefreshVisible(boolean isVisible) {
-        SwipeRefreshLayout swipe = ((AllStoriesFragment) this.getSupportFragmentManager().findFragmentById(R.id.fragment_container)).getSwipeRefreshLayout();
-        if (swipe != null) {
-            swipe.setRefreshing(isVisible);
+        Fragment currentFragment = this.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if (currentFragment != null && currentFragment instanceof AllStoriesFragment) {
+            SwipeRefreshLayout swipe = ((AllStoriesFragment) currentFragment).getSwipeRefreshLayout();
+            if (swipe != null) {
+                swipe.setRefreshing(isVisible);
+            }
         }
     }
 
     @UiThread
     void refreshFragment() {
-       getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AllStoriesFragment_()).commit();
-
+        Fragment currentFragment = this.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if (currentFragment instanceof AllStoriesFragment) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AllStoriesFragment_()).commit();
+        }
     }
 
     private void initStories() {

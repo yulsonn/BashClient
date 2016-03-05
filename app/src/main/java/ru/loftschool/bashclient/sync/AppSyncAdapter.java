@@ -28,6 +28,7 @@ public class AppSyncAdapter extends AbstractThreadedSyncAdapter{
 
     public static void initializeSyncAdapter(Context context) {
         getSyncAccount(context);
+        Log.i(TAG, "initializeSyncAdapter");
     }
 
     @Override
@@ -88,4 +89,17 @@ public class AppSyncAdapter extends AbstractThreadedSyncAdapter{
             ContentResolver.addPeriodicSync(account, authority, new Bundle(), syncInterval);
         }
     }
+
+    //stop synchronization
+    public static void syncOff(Context context) {
+        ContentResolver.setIsSyncable(getSyncAccount(context), context.getString(R.string.content_authority), 0);
+        Log.i(TAG, "syncOff");
+    }
+
+    //start synchronization
+    public static void syncOn(Context context) {
+        ContentResolver.setIsSyncable(getSyncAccount(context), context.getString(R.string.content_authority), 1);
+        Log.i(TAG, "syncOn");
+    }
+
 }

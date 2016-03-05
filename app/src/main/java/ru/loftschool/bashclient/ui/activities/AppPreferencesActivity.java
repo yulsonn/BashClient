@@ -6,6 +6,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.preference.SwitchPreference;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,7 +19,7 @@ import ru.loftschool.bashclient.R;
 import ru.loftschool.bashclient.sync.AppSyncAdapter;
 import ru.loftschool.bashclient.utils.PreferenceUtil;
 
-public class AppPreferencesActivity extends AppCompatActivity  {
+public class AppPreferencesActivity extends AppCompatActivity {
 
     private static Context context;
     private String title;
@@ -60,17 +61,37 @@ public class AppPreferencesActivity extends AppCompatActivity  {
         overridePendingTransition(R.anim.activity_open_scale, R.anim.activity_close_translate);
     }
 
-    public static class AppPreferenceFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener{
+    public static class AppPreferenceFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
+
+        private SwitchPreference syncOnOff;
+        private ListPreference syncInterval;
+        private SwitchPreference notificationsOnOff;
 
         @Override
-        public void onCreate(final Bundle savedInstanceState)
-        {
+        public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
+
+            syncOnOff = (SwitchPreference) findPreference(getString(R.string.pref_enable_synchronization_key));
+            syncInterval = (ListPreference) findPreference(getString(R.string.pref_synchronization_interval_key));
+            notificationsOnOff = (SwitchPreference) findPreference(getString(R.string.pref_enable_notifications_key));
+
+            syncInterval.setEnabled(syncOnOff.isChecked());
+            notificationsOnOff.setEnabled(syncOnOff.isChecked());
+
+            syncOnOff.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    syncInterval.setEnabled(syncOnOff.isChecked());
+                    notificationsOnOff.setEnabled(syncOnOff.isChecked());
+                    return true;
+                }
+            });
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_enable_synchronization_key)));
             bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_synchronization_interval_key)));
 
             return super.onCreateView(inflater, container, savedInstanceState);
@@ -80,7 +101,11 @@ public class AppPreferencesActivity extends AppCompatActivity  {
             // Set the listener to watch for value changes.
             preference.setOnPreferenceChangeListener(this);
             // Trigger the listener immediately with the preference's current value.
-            onPreferenceChange(preference, PreferenceManager.getDefaultSharedPreferences(preference.getContext()).getString(preference.getKey(), ""));
+            if (preference.getKey().equals(context.getString(R.string.pref_enable_synchronization_key))) {
+                onPreferenceChange(preference, PreferenceManager.getDefaultSharedPreferences(preference.getContext()).getBoolean(preference.getKey(), false));
+            } else {
+                onPreferenceChange(preference, PreferenceManager.getDefaultSharedPreferences(preference.getContext()).getString(preference.getKey(), ""));
+            }
         }
 
         @Override
@@ -97,12 +122,22 @@ public class AppPreferencesActivity extends AppCompatActivity  {
 
                 if (preference.getKey().equals(context.getString(R.string.pref_synchronization_interval_key))) {
                     int newSyncPeriod = PreferenceUtil.getNewSyncPeriod(Integer.parseInt(stringValue));
-                    AppSyncAdapter.configurePeriodicSync(context, newSyncPeriod, newSyncPeriod/3);
+                    AppSyncAdapter.configurePeriodicSync(context, newSyncPeriod, newSyncPeriod / 3);
                 }
 
             } else {
                 // For other preferences, set the summary to the value's simple string representation.
                 preference.setSummary(stringValue);
+
+                //for turn on/off sync preference
+                if (preference.getKey().equals(context.getString(R.string.pref_enable_synchronization_key))) {
+                    boolean value = (boolean) newValue;
+                    if (value) {
+                        AppSyncAdapter.syncOn(context);
+                    } else {
+                        AppSyncAdapter.syncOff(context);
+                    }
+                }
             }
 
             return true;

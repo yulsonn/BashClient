@@ -3,6 +3,12 @@
 
     <PreferenceCategory
         android:title="@string/pref_synchronization_section">
+        <SwitchPreference
+            android:title="@string/pref_enable_synchronization_label"
+            android:key="@string/pref_enable_synchronization_key"
+            android:summaryOff="@string/pref_enable_synchronization_false"
+            android:summaryOn="@string/pref_enable_synchronization_true"
+            android:defaultValue="@string/pref_enable_synchronization_default" />
         <ListPreference
             android:key="@string/pref_synchronization_interval_key"
             android:title="@string/pref_synchronization_interval_label"

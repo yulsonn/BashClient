@@ -24,8 +24,8 @@ android {
         applicationId "ru.loftschool.bashclient"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 5
-        versionName "1.0.4"
+        versionCode 6
+        versionName "1.2"
     }
     buildTypes {
         release {

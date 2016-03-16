@@ -25,8 +25,9 @@ public class UpdateDataUtil {
                 String link = story.getLink();
                 int storyNum = Integer.parseInt(link.substring(link.lastIndexOf("F") + 1, link.length()));
                 if (storyNum > maxNum) {
-                    String text = Html.fromHtml(story.getElementPureHtml()).toString().replace('\n', ' ');
-                    String shortText = text.length() > 250 ? text.substring(0, 250) + "..." : text;
+                    String text = story.getElementPureHtml();
+                    String textToString = Html.fromHtml(story.getElementPureHtml()).toString().replace('\n', ' ');
+                    String shortText = textToString.length() > 250 ? textToString.substring(0, 250) + "..." : textToString;
                     new Story(text, shortText, storyNum).save();
                 }
             }

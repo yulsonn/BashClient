@@ -3,21 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/background">
-    
-    <ScrollView
-        android:id="@+id/f_scroll_view"
+    android:background="@color/background"
+    android:layout_margin="@dimen/full_scroll_margin">
+
+    <WebView
+        android:id="@+id/f_full_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/full_scroll_margin">
-
-        <TextView
-            android:id="@+id/f_full_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/full_text_padding"
-            android:textSize="@dimen/medium_full_text"
-            android:lineSpacingMultiplier="1.3"/>
-    </ScrollView>
+        android:padding="@dimen/full_text_padding"
+        android:textSize="@dimen/medium_full_text"/>
 
 </LinearLayout>

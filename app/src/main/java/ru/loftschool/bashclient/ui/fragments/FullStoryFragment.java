@@ -128,7 +128,7 @@ public class FullStoryFragment extends Fragment {
                 }
             }));
 
-            String storyText = "<font color='#585858' face='Sans-serif'>" + story.text + "</font>";
+            String storyText = "<font color='#585858' face='Calibri' line-height: '1.5'>" + story.text + "</font>";
             fullText.loadData(storyText, MIME_TYPE, ENCODING);
             registerForContextMenu(fullText);
         }

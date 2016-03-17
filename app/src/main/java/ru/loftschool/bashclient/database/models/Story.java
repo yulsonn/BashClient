@@ -56,8 +56,12 @@ public class Story extends Model {
         return new Select().from(Story.class).where(FAVORITE + " = ?", true).orderBy(STORY_NUM + " DESC").execute();
     }
 
-    public static Story select(long id) {
+    public static Story selectById(long id) {
         return new Select().from(Story.class).where("id = ?", id).executeSingle();
+    }
+
+    public static Story selectByNum(int num) {
+        return new Select().from(Story.class).where(STORY_NUM + " = ?", num).executeSingle();
     }
 
     public static void deleteAll() {

@@ -2,7 +2,6 @@ package ru.loftschool.bashclient.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,6 +17,8 @@ import android.util.SparseBooleanArray;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import com.crashlytics.android.Crashlytics;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -37,6 +38,7 @@ import ru.loftschool.bashclient.ui.fragments.AllStoriesFragment;
 import ru.loftschool.bashclient.ui.fragments.AllStoriesFragment_;
 import ru.loftschool.bashclient.ui.fragments.FavoriteStoriesFragment;
 import ru.loftschool.bashclient.ui.fragments.FavoriteStoriesFragment_;
+import ru.loftschool.bashclient.ui.fragments.FullStoriesTabsFragment;
 import ru.loftschool.bashclient.ui.fragments.FullStoryFragment;
 
 @EActivity(R.layout.activity_main)
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
     @OptionsItem(android.R.id.home)
     void drawerOpen(){
         Fragment currentFragment = this.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        if (currentFragment instanceof FullStoryFragment) {
+        if (currentFragment instanceof FullStoriesTabsFragment || currentFragment instanceof FullStoryFragment) {
             super.onBackPressed();
         } else {
             drawerLayout.openDrawer(GravityCompat.START);
@@ -139,9 +141,13 @@ public class MainActivity extends AppCompatActivity {
 
     @UiThread
     void refreshFragment() {
-        Fragment currentFragment = this.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        if (currentFragment instanceof AllStoriesFragment) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AllStoriesFragment_()).commit();
+        try {
+            Fragment currentFragment = this.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+            if (currentFragment instanceof AllStoriesFragment) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AllStoriesFragment_()).commit();
+            }
+        } catch (IllegalStateException ex) {
+            Crashlytics.getInstance().core.logException(ex);
         }
     }
 

@@ -52,8 +52,16 @@ public class Story extends Model {
     public static List<Story> selectAll() {
         return new Select().from(Story.class).orderBy(STORY_NUM + " DESC").execute();
     }
+
+    public static List<Story> selectAllAsc() {
+        return new Select().from(Story.class).orderBy(STORY_NUM).execute();
+    }
     public static List<Story> selectFavorites() {
         return new Select().from(Story.class).where(FAVORITE + " = ?", true).orderBy(STORY_NUM + " DESC").execute();
+    }
+
+    public static List<Story> selectFavoritesAsc() {
+        return new Select().from(Story.class).where(FAVORITE + " = ?", true).orderBy(STORY_NUM).execute();
     }
 
     public static Story selectById(long id) {

@@ -32,7 +32,6 @@ import java.util.List;
 import ru.loftschool.bashclient.R;
 import ru.loftschool.bashclient.adapters.FavoriteStoriesAdapter;
 import ru.loftschool.bashclient.database.models.Story;
-import ru.loftschool.bashclient.ui.BundleConstants;
 import ru.loftschool.bashclient.ui.ToolbarInitialization;
 import ru.loftschool.bashclient.ui.activities.MainActivity;
 import ru.loftschool.bashclient.ui.listeners.ClickListener;
@@ -243,14 +242,9 @@ public class FavoriteStoriesFragment extends Fragment implements RemoveSituation
     }
 
     private void openFullStory(int position) {
-        long id = adapter.getItemId(position);
-        FullStoryFragment_ fullStoryFragment = new FullStoryFragment_();
-        Bundle bundle = new Bundle();
-        bundle.putLong(BundleConstants.ARG_ID, id);
-        fullStoryFragment.setArguments(bundle);
-
+        FullStoriesTabsFragment fullStoriesTabsFragment = FullStoriesTabsFragment.newInstance(position, false);
         FragmentManager fragmentManager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.fragment_container, fullStoryFragment).addToBackStack(null).commit();
+        fragmentManager.beginTransaction().replace(R.id.fragment_container, fullStoriesTabsFragment).addToBackStack(null).commit();
     }
 
     private class ActionModeCallback implements ActionMode.Callback {

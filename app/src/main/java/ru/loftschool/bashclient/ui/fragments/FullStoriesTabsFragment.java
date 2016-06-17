@@ -30,6 +30,7 @@ public class FullStoriesTabsFragment extends Fragment implements ViewPager.OnPag
     private StoriesPagerAdapter adapter;
     private boolean allStoriesList;
     private int initialPosition;
+    private int currentPosition;
     private Story currentStory;
 
     public FullStoriesTabsFragment() {
@@ -55,6 +56,7 @@ public class FullStoriesTabsFragment extends Fragment implements ViewPager.OnPag
             allStoriesList = getArguments().getBoolean(Constants.ARG_ALL_STORIES, true);
         }
         setCurrentStory(initialPosition);
+        currentPosition = initialPosition;
     }
 
     @Nullable
@@ -97,6 +99,12 @@ public class FullStoriesTabsFragment extends Fragment implements ViewPager.OnPag
         switch (item.getItemId()) {
             case R.id.menu_story_fav:
                 FullStoryUtil.reverseFavorite(getActivity(), item, currentStory);
+                if (!allStoriesList) {
+                    adapter = new StoriesPagerAdapter(getChildFragmentManager(), allStoriesList);
+                    viewPager.setAdapter(adapter);
+                    viewPager.setCurrentItem(currentPosition);
+                    setCurrentStory(currentPosition);
+                }
                 return true;
             case R.id.menu_story_share:
                 FullStoryUtil.shareStory(getActivity(), currentStory);
@@ -113,8 +121,8 @@ public class FullStoriesTabsFragment extends Fragment implements ViewPager.OnPag
 
     @Override
     public void onPageSelected(int position) {
+        currentPosition = position;
         setCurrentStory(position);
-        setTitle();
     }
 
     @Override
@@ -124,14 +132,21 @@ public class FullStoriesTabsFragment extends Fragment implements ViewPager.OnPag
 
     private void setCurrentStory(int position) {
         List<Story> stories = allStoriesList ? Story.selectAll() : Story.selectFavorites();
-        currentStory = stories.get(position);
+        if (stories.size() != 0 && position < stories.size()) {
+            currentStory = stories.get(position);
+        } else if (stories.size() != 0 && position >= stories.size()) {
+            currentStory = stories.get(stories.size()-1);
+        } else {
+            currentStory = null;
+            getActivity().onBackPressed();
+        }
+        setTitle();
     }
 
     private void setTitle() {
-        String title = null;
         if (currentStory != null) {
-            title = "#" + currentStory.storyNum;
+            String title = "#" + currentStory.storyNum;
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
         }
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
     }
 }

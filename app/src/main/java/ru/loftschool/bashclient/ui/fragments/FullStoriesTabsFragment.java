@@ -49,7 +49,6 @@ public class FullStoriesTabsFragment extends Fragment implements ViewPager.OnPag
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ToolbarInitialization.initToolbar(ToolbarInitialization.TOOLBAR_ALT, (AppCompatActivity) getActivity());
         setHasOptionsMenu(true);
         if (getArguments() != null) {
             initialPosition = getArguments().getInt(Constants.ARG_POSITION, 0);
@@ -71,6 +70,7 @@ public class FullStoriesTabsFragment extends Fragment implements ViewPager.OnPag
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        ToolbarInitialization.initToolbar(ToolbarInitialization.TOOLBAR_ALT, (AppCompatActivity) getActivity());
 
         //Инициализируем адаптер
         adapter = new StoriesPagerAdapter(getChildFragmentManager(), allStoriesList);

@@ -11,7 +11,10 @@ public class ToolbarInitialization {
     public static final int TOOLBAR_MAIN = 0;
     public static final int TOOLBAR_ALT = 1;
 
-    public static void initToolbar(int version, final AppCompatActivity activity){
+    public static void initToolbar(int version, final AppCompatActivity activity) {
+        if (activity == null) {
+            return;
+        }
 
         Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
 

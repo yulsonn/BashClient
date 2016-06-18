@@ -5,7 +5,6 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
-import com.activeandroid.util.SQLiteUtils;
 
 import java.util.List;
 
@@ -15,7 +14,8 @@ public class Story extends Model {
     public static final String TEXT = "Text";
     public static final String SHORT_TEXT = "Short_text";
     public static final String FAVORITE = "Favorite";
-    public  static final String STORY_NUM = "Story_number";
+    public static final String STORY_NUM = "Story_number";
+    public static final String NEW_STORY = "New_story";
 
     @Column(name = TEXT)
     public String text;
@@ -28,6 +28,9 @@ public class Story extends Model {
 
     @Column(name = FAVORITE)
     public boolean favorite;
+
+    @Column(name = NEW_STORY)
+    public int newStory;
 
     public Story() {
         super();

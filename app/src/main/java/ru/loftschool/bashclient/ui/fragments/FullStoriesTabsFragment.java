@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,6 +33,7 @@ public class FullStoriesTabsFragment extends Fragment implements ViewPager.OnPag
     private int initialPosition;
     private int currentPosition;
     private Story currentStory;
+    private boolean unread;
 
     public FullStoriesTabsFragment() {
     }
@@ -86,9 +88,13 @@ public class FullStoriesTabsFragment extends Fragment implements ViewPager.OnPag
         // something that differs the Activity's menu
         MenuItem itemFav = menu.findItem(R.id.menu_story_fav);
         MenuItem itemShare = menu.findItem(R.id.menu_story_share);
+        MenuItem itemUnread = menu.findItem(R.id.menu_story_unread);
 
         itemFav.setVisible(true);
         itemShare.setVisible(true);
+        if (unread) {
+            itemUnread.setVisible(true);
+        }
 
         FullStoryUtil.favStarColorize(itemFav, currentStory);
         super.onCreateOptionsMenu(menu, inflater);
@@ -134,8 +140,20 @@ public class FullStoriesTabsFragment extends Fragment implements ViewPager.OnPag
         List<Story> stories = allStoriesList ? Story.selectAll() : Story.selectFavorites();
         if (stories.size() != 0 && position < stories.size()) {
             currentStory = stories.get(position);
+            if (currentStory != null && currentStory.newStory == 0) {
+                unread = true;
+                FullStoryUtil.setStoryRead(currentStory);
+            } else {
+                unread = false;
+            }
         } else if (stories.size() != 0 && position >= stories.size()) {
             currentStory = stories.get(stories.size()-1);
+            if (currentStory != null && currentStory.newStory == 0) {
+                unread = true;
+                FullStoryUtil.setStoryRead(currentStory);
+            } else {
+                unread = false;
+            }
         } else {
             currentStory = null;
             getActivity().onBackPressed();

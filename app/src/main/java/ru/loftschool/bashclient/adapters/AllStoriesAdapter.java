@@ -1,6 +1,7 @@
 package ru.loftschool.bashclient.adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -64,6 +65,12 @@ public class AllStoriesAdapter extends SelectableAdapter<AllStoriesAdapter.AllSt
         final Story story = stories.get(position);
         holder.text.setText(story.shortText);
         holder.selectedOverlay.setVisibility(isSelected(position) ? View.VISIBLE : View.INVISIBLE);
+
+        if (story.newStory == 0) {
+            holder.text.setTypeface(null, Typeface.BOLD);
+        } else {
+            holder.text.setTypeface(null, Typeface.NORMAL);
+        }
 
         //setAnimation(holder.itemView, position);
     }

@@ -47,4 +47,9 @@ public class FullStoryUtil {
 
         context.startActivity(Intent.createChooser(share, context.getString(R.string.share_text)));
     }
+
+    public static void setStoryRead(Story story) {
+        story.newStory = 1;
+        story.save();
+    }
 }

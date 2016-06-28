@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -56,7 +57,7 @@ public class FullStoriesTabsFragment extends Fragment implements ViewPager.OnPag
             initialPosition = getArguments().getInt(Constants.ARG_POSITION, 0);
             allStoriesList = getArguments().getBoolean(Constants.ARG_ALL_STORIES, true);
         }
-        setCurrentStory(initialPosition);
+
         currentPosition = initialPosition;
     }
 
@@ -74,12 +75,13 @@ public class FullStoriesTabsFragment extends Fragment implements ViewPager.OnPag
         super.onActivityCreated(savedInstanceState);
         ToolbarInitialization.initToolbar(ToolbarInitialization.TOOLBAR_ALT, (AppCompatActivity) getActivity());
 
+        setCurrentStory(currentPosition);
+
         //Инициализируем адаптер
         adapter = new StoriesPagerAdapter(getChildFragmentManager(), allStoriesList);
         viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(initialPosition);
+        viewPager.setCurrentItem(currentPosition);
         viewPager.addOnPageChangeListener(this);
-        setTitle();
 
     }
 
@@ -164,7 +166,10 @@ public class FullStoriesTabsFragment extends Fragment implements ViewPager.OnPag
     private void setTitle() {
         if (currentStory != null) {
             String title = "#" + currentStory.storyNum;
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
+            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setTitle(title);
+            }
         }
     }
 }
